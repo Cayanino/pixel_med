@@ -1,0 +1,26 @@
+var questoes = [
+    {
+        prova: "Revalida 2022",
+        area: "Clínica Médica",
+        tema: "Bradiarritmias",
+        pergunta: "Um paciente de 64 anos foi levado por familiares à unidade de emergência logo após ter apresentado episódio de síncope. Segundo o paciente, ele já tinha apresentado 2 outros episódios nos últimos 3 meses, sempre precedidos por sensação de “tonteiras”, e, eventualmente, tem sentido a impressão de fraqueza, “escurecimento da visão” e sensação de queda iminente. Não há dados relevantes de história patológica pregressa do paciente, que não faz uso de nenhum fármaco regularmente. No exame físico, o paciente apresentava-se bradicárdico (42 batimentos por minuto), normotenso, com ritmo cardíaco regular em 3 tempos (B4), sem sopros. Seu pulso venoso jugular revelou a presença de intermitentes ondas “a em canhão”. Foi realizado um eletrocardiograma, que revelou padrão similar ao ilustrado na figura Acima. O emergencista que atende esse paciente deverá explicar-lhe que será necessária a realização de ",
+        imagem: "revalida_2022/ecg-batv.png",
+        alternativas: [
+            "cardioversão elétrica.",
+            "ablação de via anômala.",
+            "implante de marca-passo definitivo.",
+            "isolamento elétrico das vias pulmonares. "
+        ],
+        correta: 2,
+        comentarios: [
+    "INCORRETA. A cardioversão elétrica sincronizada é um procedimento de emergência indicado exclusivamente para arritmias taquicárdicas instáveis, como taquicardia ventricular com pulso, fibrilação atrial com alta resposta ventricular (ex: > 150 bpm) acompanhada de hipotensão grave ou edema agudo de pulmão. No caso do nosso paciente, a frequência cardíaca está em 42 bpm (bradicardia extrema) e ele está normotenso no momento, mas com histórico de síncope. A cardioversão NÃO restaura a condução atrioventricular em um bloqueio total; ela apenas entrega um choque na tentativa de reverter um ritmo caótico e rápido. Aplicá-la aqui seria inútil e, se o paciente for sedado, pode até piorar a hipotensão. Portanto, descarte essa opção de imediato.",
+
+    "INCORRETA. A ablação por catéter de via anômala (ou ablação do feixe de Kent) é o tratamento padrão-ouro para pacientes com Síndrome de Wolff-Parkinson-White (WPW) ou taquicardia por reentrada nodal atrioventricular, que são TAQUIARRITMIAS. O grande marcador clínico do nosso paciente são as ondas 'a em canhão' no pulso venoso jugular. Isso é patognomônico (ou seja, caminho obrigatório para o diagnóstico) de dissociação atrioventricular: os átrios estão contraindo FORTEMENTE contra as valvas tricúspides e mitrais FECHADAS, porque o ventrículo está contraindo em seu próprio ritmo lento. O problema aqui é uma falha de condução no sistema His-Purkinje (BAVT), e não uma via acessória extra. Fazer ablação nesse cenário não resolveria a bradicardia; na verdade, poderia destruir o pouco da condução nativa que ainda existe. Erro conceitual grave, fique atento a isso nas provas!",
+
+    "CORRETA. Esse é um quadro clássico de Bloqueio Atrioventricular Total (3º grau) sintomático. Vamos juntar as peças do raciocínio clínico: 1) Paciente com síncope recorrente e pré-síncope (tontura, escurecimento visual) - isso indica hipoperfusão cerebral aguda; 2) Frequência cardíaca de 42 bpm (bradicardia severa); 3) Ritmo regular com presença de B4 (quarta bulha) – isso ocorre porque os átrios estão tentando bombear contra ventrículos rígidos/cheios, o que acontece na dissociação; 4) O achado de OURO: ondas 'a em canhão' no jugular, que são a prova cabal de que átrio e ventrículo não estão mais conversando (dissociação AV). O ECG da figura deve mostrar ondas P sem relação com os complexos QRS (P dissociadas). Segundo as Diretrizes da SBC e do ACC/AHA, o implante de marca-passo cardíaco definitivo é a única terapia capaz de prevenir novos episódios de síncope e morte súbita nesse contexto (Classe I, Nível de Evidência A). Não se trata de uma urgência cirúrgica imediata se o paciente está estável agora, mas a indicação é ABSOLUTA, pois o risco de novas síncopes e até parada cardíaca por assistolia é altíssimo. O marca-passo vai restaurar a frequência cardíaca adequada (geralmente 60 bpm) e a sincronia hemodinâmica, devolvendo qualidade de vida e segurança ao paciente.",
+
+    "INCORRETA. O isolamento elétrico das veias pulmonares, popularmente chamado de 'ablação de fibrilação atrial', é o procedimento invasivo indicado para pacientes com fibrilação atrial paroxística ou persistente sintomática que não respondem bem aos fármacos antiarrítmicos. Trata-se de uma TAQUIARRITMIA supraventricular. No enunciado, o paciente tem ritmo REGULAR (não tem fibrilação, que é irregularmente irregular) e está BRADICÁRDICO. Não há absolutamente nenhuma indicação para isolar veias pulmonares aqui. Além disso, o procedimento é feito no átrio esquerdo e não atua em absolutamente nada no nó AV ou no sistema de His, que são os responsáveis pela bradicardia grave deste paciente. É uma distração típica das provas para confundir quem estuda decoreba. Fique esperto: sempre que ouvir 'veias pulmonares', pense em FA; sempre que ouvir 'onda a em canhão', pense em BAVT e marca-passo!"
+]
+    },
+    // ... adicione todas as outras questões aqui
+];
