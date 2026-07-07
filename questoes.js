@@ -4,7 +4,7 @@ var questoes = [
         area: "Clínica Médica",
         tema: "Bradiarritmias",
         pergunta: "Um paciente de 64 anos foi levado por familiares à unidade de emergência logo após ter apresentado episódio de síncope. Segundo o paciente, ele já tinha apresentado 2 outros episódios nos últimos 3 meses, sempre precedidos por sensação de “tonteiras”, e, eventualmente, tem sentido a impressão de fraqueza, “escurecimento da visão” e sensação de queda iminente. Não há dados relevantes de história patológica pregressa do paciente, que não faz uso de nenhum fármaco regularmente. No exame físico, o paciente apresentava-se bradicárdico (42 batimentos por minuto), normotenso, com ritmo cardíaco regular em 3 tempos (B4), sem sopros. Seu pulso venoso jugular revelou a presença de intermitentes ondas “a em canhão”. Foi realizado um eletrocardiograma, que revelou padrão similar ao ilustrado na figura Acima. O emergencista que atende esse paciente deverá explicar-lhe que será necessária a realização de ",
-        imagem: "revalida_2022/ecg-batv.png",
+        imagem: "ecg-batv.png",
         alternativas: [
             "cardioversão elétrica.",
             "ablação de via anômala.",
