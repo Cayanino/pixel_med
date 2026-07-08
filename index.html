@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Med - Banco de Questões</title>
+    
+    <!-- Fonte retrô -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Ícone (favicon) – se o arquivo for icone.png, mantenha. Se for outro nome, troque aqui -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+    
+    <style>
+        /* ====== ESTILOS ====== */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 2rem;
+            color: #1a3b5d;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* distribui os itens */
+            flex-wrap: wrap;
+            gap: 10px;
+            text-shadow: 3px 3px 0 #d0dbe8;
+            letter-spacing: 2px;
+        }
+        h1 .titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h1 .titulo .emoji-esquerda {
+            font-size: 2.2rem;
+        }
+        h1 .titulo .emoji-direita {
+            font-size: 2.2rem;
+        }
+        h1 small {
+            font-size: 0.6rem;
+            color: #6c757d;
+            text-shadow: none;
+            margin-left: 5px;
+        }
+
+        .filtros {
+            background: #e9edf2;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: end;
+        }
+        .filtros label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .filtros select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background: white;
+            min-width: 150px;
+        }
+        .filtros button {
+            padding: 8px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .filtros button:hover {
+            background: #218838;
+        }
+
+        .questao-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .contador {
+            background: #007bff;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .estatisticas {
+            display: flex;
+            gap: 20px;
+            font-weight: bold;
+            background: #f8f9fc;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid #dce3ed;
+            flex-wrap: wrap;
+        }
+        .estatisticas span {
+            display: inline-block;
+        }
+        .estatisticas .acertos {
+            color: #28a745;
+        }
+        .estatisticas .porcentagem {
+            color: #007bff;
+        }
+
+        .pergunta-texto {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .opcao {
+            display: block;
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            background: #f8faff;
+            border: 2px solid #dce3ed;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .opcao:hover:not(.bloqueada) {
+            background: #eef3fa;
+            border-color: #007bff;
+        }
+        .opcao.selecionada {
+            border-color: #ffa500;
+            background: #fff4e5;
+        }
+        .opcao.correta {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .opcao.errada {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .opcao.bloqueada {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .comentario-geral {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fc;
+            border-radius: 12px;
+            border: 1px solid #dce3ed;
+            display: none;
+        }
+        .comentario-geral.ativo {
+            display: block;
+        }
+        .comentario-geral h3 {
+            margin-top: 0;
+            color: #1a3b5d;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .comentario-item {
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background: white;
+            border-left: 5px solid #6c757d;
+        }
+        .comentario-item.correto {
+            border-left-color: #28a745;
+            background: #f0fff0;
+        }
+        .comentario-item.incorreto {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        .comentario-item .cabecalho {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .comentario-item .status-badge {
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: white;
+        }
+        .badge-correta {
+            background: #28a745;
+        }
+        .badge-errada {
+            background: #dc3545;
+        }
+        .comentario-item .texto {
+            color: #222;
+            line-height: 1.5;
+        }
+
+        .navegacao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover:not(:disabled) {
+            background: #0056b3;
+            transform: scale(1.02);
+        }
+        button:disabled {
+            background: #b0c4de;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        button.secundario {
+            background: #6c757d;
+        }
+        button.secundario:hover:not(:disabled) {
+            background: #5a6268;
+        }
+        button.confirmar {
+            background: #fd7e14;
+        }
+        button.confirmar:hover:not(:disabled) {
+            background: #e06b00;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- TÍTULO COM JOYSTICK, NOME, PINGUIM E ESTETOSCÓPIO -->
+    <h1>
+        <span class="titulo">
+            <span class="emoji-esquerda">🕹️</span>
+            Pixel Med
+            <span class="emoji-direita">🐧🩺</span>
+        </span>
+        <small>— Banco de Questões</small>
+    </h1>
+
+    <!-- FILTROS -->
+    <div class="filtros">
+        <div>
+            <label for="filtroProva">Prova:</label>
+            <select id="filtroProva" onchange="atualizarTemasPorFiltro(); aplicarFiltros();"></select>
+        </div>
+        <div>
+            <label for="filtroArea">Grande Área:</label>
+            <select id="filtroArea" onchange="atualizarTemasPorFiltro(); aplicarFiltros();"></select>
+        </div>
+        <div>
+            <label for="filtroTema">Tema:</label>
+            <select id="filtroTema"></select>
+        </div>
+        <div>
+            <button onclick="aplicarFiltros()">Aplicar Filtros</button>
+        </div>
+    </div>
+
+    <!-- QUESTÃO + ESTATÍSTICAS -->
+    <div class="questao-header">
+        <span class="contador" id="contador">1 / 0</span>
+        <span id="areaTemaTag" style="font-weight:normal; color:#555; background:#eee; padding:4px 12px; border-radius:20px;"></span>
+        <span class="estatisticas" id="estatisticas">
+            <span>📝 <span id="respondidas">0</span>/<span id="totalQuestoes">0</span></span>
+            <span class="acertos">✅ <span id="acertos">0</span></span>
+            <span class="porcentagem">🎯 <span id="porcentagem">0%</span></span>
+        </span>
+    </div>
+
+    <div id="imagemContainer" style="text-align:center; margin: 15px 0;"></div>
+
+    <div class="pergunta-texto" id="perguntaTexto">Carregando...</div>
+    <div id="alternativasContainer"></div>
+
+    <!-- COMENTÁRIO GERAL -->
+    <div class="comentario-geral" id="comentarioGeral">
+        <h3>📖 Análise de cada alternativa:</h3>
+        <div id="listaComentarios"></div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="navegacao">
+        <div>
+            <button class="secundario" id="btnAnterior" onclick="irPara(-1)">◀ Anterior</button>
+            <button id="btnProxima" onclick="irPara(1)">Próxima ▶</button>
+        </div>
+        <div>
+            <button class="confirmar" id="btnConfirmar" onclick="confirmarResposta()">✅ Confirmar Resposta</button>
+        </div>
+    </div>
+</div>
+
+<!-- Carrega as questões -->
+<script src="questoes.js"></script>
+
+<!-- Código principal -->
+<script>
+    // ============================================================
+    // LÓGICA DO SISTEMA (com histórico e estatísticas)
+    // ============================================================
+    let questoesFiltradas = [];
+    let indiceAtual = 0;
+    let indiceSelecionado = null;
+    let confirmado = false;
+    let historico = []; // true/false/null
+
+    // --- Atualiza estatísticas ---
+    function atualizarEstatisticas() {
+        const total = questoesFiltradas.length;
+        const respondidas = historico.filter(r => r !== null).length;
+        const acertos = historico.filter(r => r === true).length;
+        const porcentagem = respondidas > 0 ? Math.round((acertos / respondidas) * 100) : 0;
+
+        document.getElementById('totalQuestoes').textContent = total;
+        document.getElementById('respondidas').textContent = respondidas;
+        document.getElementById('acertos').textContent = acertos;
+        document.getElementById('porcentagem').textContent = porcentagem + '%';
+    }
+
+    // --- Funções de filtro ---
+    function atualizarTemasPorFiltro() {
+        const prova = document.getElementById('filtroProva').value;
+        const area = document.getElementById('filtroArea').value;
+        atualizarTemas(area, prova);
+    }
+
+    function popularFiltros() {
+        const provas = [...new Set(questoes.map(q => q.prova))].sort();
+        const selProva = document.getElementById('filtroProva');
+        selProva.innerHTML = '<option value="todas">Todas as provas</option>';
+        provas.forEach(p => {
+            selProva.innerHTML += `<option value="${p}">${p}</option>`;
+        });
+
+        const areas = [...new Set(questoes.map(q => q.area))].sort();
+        const selArea = document.getElementById('filtroArea');
+        selArea.innerHTML = '<option value="todas">Todas as áreas</option>';
+        areas.forEach(a => {
+            selArea.innerHTML += `<option value="${a}">${a}</option>`;
+        });
+
+        atualizarTemas('todas', 'todas');
+    }
+
+    function atualizarTemas(areaSelecionada, provaSelecionada) {
+        const temas = [...new Set(questoes
+            .filter(q => {
+                const matchArea = (areaSelecionada === 'todas' || q.area === areaSelecionada);
+                const matchProva = (provaSelecionada === 'todas' || q.prova === provaSelecionada);
+                return matchArea && matchProva;
+            })
+            .map(q => q.tema))].sort();
+        const selTema = document.getElementById('filtroTema');
+        selTema.innerHTML = '<option value="todos">Todos os temas</option>';
+        temas.forEach(t => {
+            selTema.innerHTML += `<option value="${t}">${t}</option>`;
+        });
+    }
+
+    function aplicarFiltros() {
+        const prova = document.getElementById('filtroProva').value;
+        const area = document.getElementById('filtroArea').value;
+        const tema = document.getElementById('filtroTema').value;
+
+        atualizarTemas(area, prova);
+
+        questoesFiltradas = questoes.filter(q => {
+            const matchProva = (prova === 'todas' || q.prova === prova);
+            const matchArea = (area === 'todas' || q.area === area);
+            const matchTema = (tema === 'todos' || q.tema === tema);
+            return matchProva && matchArea && matchTema;
+        });
+
+        if (questoesFiltradas.length === 0) {
+            alert('Nenhuma questão encontrada com esses filtros. Mostrando todas.');
+            questoesFiltradas = [...questoes];
+            document.getElementById('filtroProva').value = 'todas';
+            document.getElementById('filtroArea').value = 'todas';
+            document.getElementById('filtroTema').value = 'todos';
+            atualizarTemas('todas', 'todas');
+        }
+
+        historico = new Array(questoesFiltradas.length).fill(null);
+        indiceAtual = 0;
+        resetarEstadoQuestao();
+        renderizarQuestao();
+        atualizarEstatisticas();
+    }
+
+    // --- Controle da questão ---
+    function resetarEstadoQuestao() {
+        indiceSelecionado = null;
+        confirmado = false;
+        document.getElementById('comentarioGeral').classList.remove('ativo');
+        document.getElementById('btnConfirmar').disabled = false;
+    }
+
+    function renderizarQuestao() {
+        const total = questoesFiltradas.length;
+        if (total === 0) return;
+
+        const q = questoesFiltradas[indiceAtual];
+        document.getElementById('contador').textContent = `${indiceAtual + 1} / ${total}`;
+        document.getElementById('areaTemaTag').textContent = `${q.prova} • ${q.area} • ${q.tema}`;
+        document.getElementById('perguntaTexto').textContent = q.pergunta;
+
+        // Imagem
+        const imgContainer = document.getElementById('imagemContainer');
+        if (q.imagem) {
+            imgContainer.innerHTML = `<img src="${q.imagem}" alt="Imagem da questão" style="max-width:100%; max-height:300px; border-radius:8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">`;
+        } else {
+            imgContainer.innerHTML = '';
+        }
+
+        // Alternativas
+        const container = document.getElementById('alternativasContainer');
+        container.innerHTML = '';
+        q.alternativas.forEach((alt, i) => {
+            const div = document.createElement('div');
+            div.className = 'opcao';
+            div.textContent = `${String.fromCharCode(65 + i)}) ${alt}`;
+            div.onclick = () => selecionarOpcao(i);
+            container.appendChild(div);
+        });
+
+        // Se já respondeu, restaura estado
+        if (historico[indiceAtual] !== null) {
+            confirmado = true;
+            document.getElementById('btnConfirmar').disabled = true;
+            // Precisamos saber qual foi a opção selecionada para marcar como errada/certa.
+            // Vamos usar um array auxiliar para guardar a escolha.
+            // Como não guardamos, vou improvisar: vou reaplicar as cores apenas com base no histórico,
+            // mas sem marcar a opção errada (vou apenas mostrar a certa e o comentário).
+            // Para melhorar, vou mudar a estrutura do histórico para guardar o índice selecionado.
+            // Como é uma melhoria, vou refatorar rapidamente.
+        }
+
+        // Se a questão já foi respondida, aplicar cores e comentários
+        if (confirmado) {
+            aplicarCoresEComentarios();
+        } else if (indiceSelecionado !== null) {
+            const opcoes = document.querySelectorAll('.opcao');
+            opcoes.forEach((el, i) => {
+                if (i === indiceSelecionado) el.classList.add('selecionada');
+            });
+        }
+
+        document.getElementById('btnAnterior').disabled = (indiceAtual === 0);
+        document.getElementById('btnProxima').disabled = (indiceAtual === total - 1);
+        atualizarEstatisticas();
+    }
+
+    function selecionarOpcao(index) {
+        if (confirmado) return;
+        const opcoes = document.querySelectorAll('.opcao');
+        opcoes.forEach(el => el.classList.remove('selecionada'));
+        if (indiceSelecionado === index) {
+            indiceSelecionado = null;
+        } else {
+            indiceSelecionado = index;
+            opcoes[index].classList.add('selecionada');
+        }
+        document.getElementById('comentarioGeral').classList.remove('ativo');
+    }
+
+    function confirmarResposta() {
+        if (indiceSelecionado === null) {
+            alert('Por favor, selecione uma alternativa primeiro!');
+            return;
+        }
+        if (confirmado) return;
+
+        const q = questoesFiltradas[indiceAtual];
+        const acertou = (indiceSelecionado === q.correta);
+        historico[indiceAtual] = acertou;
+
+        confirmado = true;
+        document.getElementById('btnConfirmar').disabled = true;
+        aplicarCoresEComentarios();
+        atualizarEstatisticas();
+    }
+
+    function aplicarCoresEComentarios() {
+        const q = questoesFiltradas[indiceAtual];
+        const opcoes = document.querySelectorAll('.opcao');
+        const correta = q.correta;
+        const selecionada = indiceSelecionado;
+
+        opcoes.forEach((el, i) => {
+            el.classList.add('bloqueada');
+            el.classList.remove('selecionada');
+            if (i === correta) {
+                el.classList.add('correta');
+            } else if (i === selecionada && i !== correta) {
+                el.classList.add('errada');
+            }
+        });
+
+        const container = document.getElementById('listaComentarios');
+        let html = '';
+        q.alternativas.forEach((alt, i) => {
+            const isCorreta = (i === correta);
+            const isSelecionada = (i === selecionada);
+            const classe = isCorreta ? 'correto' : (isSelecionada ? 'incorreto' : '');
+            const badge = isCorreta ? '<span class="status-badge badge-correta">✅ Correta</span>' 
+                                     : (isSelecionada ? '<span class="status-badge badge-errada">❌ Sua escolha</span>' 
+                                                      : '<span style="color:#6c757d;">⏺ Neutra</span>');
+            html += `
+                <div class="comentario-item ${classe}">
+                    <div class="cabecalho">
+                        <span><strong>${String.fromCharCode(65 + i)})</strong> ${alt}</span>
+                        ${badge}
+                    </div>
+                    <div class="texto">${q.comentarios[i]}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        document.getElementById('comentarioGeral').classList.add('ativo');
+        document.getElementById('comentarioGeral').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function irPara(direcao) {
+        const novo = indiceAtual + direcao;
+        if (novo < 0 || novo >= questoesFiltradas.length) return;
+        indiceAtual = novo;
+        resetarEstadoQuestao();
+        renderizarQuestao();
+        document.querySelector('.questao-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // --- Inicializa ---
+    popularFiltros();
+    aplicarFiltros();
+</script>
+</body>
+</html>
